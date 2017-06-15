@@ -23,6 +23,7 @@ window.onload = function () {
     let context = canvas.getContext("2d");
     let background = new Image();
     background.src = "background.jpg";
+    fetch("/api/stars").then(result=>result.json()).then(result=>stars = result);
     canvas.onmousemove = (event) => {
         var selectedStar = undefined;
         let e = getMousePos(canvas, event);

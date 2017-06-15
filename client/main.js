@@ -7,17 +7,21 @@ function getMousePos(canvas, evt) {
         y: evt.clientY - rect.top
     };
 }
-function readTextFile(file, callback) {
-    var rawFile = new XMLHttpRequest();
-    rawFile.overrideMimeType("application/json");
-    rawFile.open("GET", file, true);
-    rawFile.onreadystatechange = function () {
-        if (rawFile.readyState === 4 && rawFile.status == "200") {
-            callback(rawFile.responseText);
-        }
-    }
-    rawFile.send(null);
+
+function showMenuAt(x,y)
+{
+    let menu = document.querySelector("#context-menu");
+    menu.style.display = "block";
+    menu.style.top = y+"px";
+    menu.style.left = x+"px"; 
+    menu.style.z
 }
+function hideMenu()
+{
+    let menu = document.querySelector("#context-menu");
+    menu.style.display = "none";
+}
+
 var currentSelectedStar;
 window.onload = function () {
     let canvas = document.getElementById("map");

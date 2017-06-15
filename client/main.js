@@ -29,6 +29,31 @@ window.onload = function () {
     let background = new Image();
     background.src = "background.jpg";
     fetch("/api/stars").then(result=>result.json()).then(result=>stars = result);
+    let handleMouseDown = (ev) => {
+
+        // get mouse position relative to the canvas
+        var e = getMousePos(canvas, ev)
+        var x = e.x;
+        var y = e.y;
+
+        if(ev.which!==1) return;
+
+        // check each rect for hits
+        if(currentSelectedStar)
+        {
+            showMenuAt(currentSelectedStar.x+10, currentSelectedStar.y+10);
+        }
+        else
+        {
+            hideMenu();
+        }
+        // prevents the usual context from popping up
+        ev.preventDefault();
+        ev.stopPropagation();
+        return (false);
+    }
+    canvas.addEventListener('mousedown', handleMouseDown, false);
+
     canvas.onmousemove = (event) => {
         var selectedStar = undefined;
         let e = getMousePos(canvas, event);
@@ -61,7 +86,7 @@ window.onload = function () {
             context.fillStyle = "rgba(135, 206, 250, 0.5)";
             context.strokeStyle = "rgba(135, 206, 250, 0.3)";
             context.lineTo(star.x, star.y)
-            
+
         }
         context.fill();
         context.lineWidth = 1;

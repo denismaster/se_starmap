@@ -71,8 +71,9 @@ window.onload = function () {
         }
         if (selectedStar) {
             context.beginPath();
-            context.strokeStyle = "red";
-            context.fillStyle = "red";
+            context.strokeStyle = "rgba(224,224,224,0.3)";
+            context.fillStyle = "rgba(224,224,224,0.3)";
+            context.lineWidth = 5;
             context.arc(selectedStar.x, selectedStar.y, selectedStar.size + 4, 0, 2 * Math.PI)
             context.stroke();
         }

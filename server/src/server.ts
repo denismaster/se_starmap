@@ -7,8 +7,9 @@ export class Server {
     public readonly port: number;
     public readonly router: _express.Router;
 
+    private pathToFiles = __dirname+"/../../client/";
     constructor(port?: number) {
-        this.port = port || process.env.PORT || 1337;
+        this.port = port || process.env.PORT || 1234;
         this.app = _express();
         this.router = _express.Router();
     }
@@ -17,6 +18,12 @@ export class Server {
         this.app.use(_bodyParser.json());   
         this.app.use(_morgan("dev"));
         
+        this.app.use(_express.static(this.pathToFiles))
+
+        this.app.use("/",(request:Request,response:Response)=>{
+            response.sendFile("index.html", { root: this.pathToFiles });
+        })
+
         this.app.use((error:any,request:Request,response:Response,next:any)=>{
             response.status(500);
             console.error(error);

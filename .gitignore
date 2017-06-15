@@ -1,0 +1,7 @@
+coverage/
+
+server/node_modules/
+server/lib/
+
+server/npm-debug.log
+

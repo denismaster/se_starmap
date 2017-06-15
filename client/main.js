@@ -18,6 +18,7 @@ function readTextFile(file, callback) {
     }
     rawFile.send(null);
 }
+var currentSelectedStar;
 window.onload = function () {
     let canvas = document.getElementById("map");
     let context = canvas.getContext("2d");
@@ -33,7 +34,10 @@ window.onload = function () {
                 break;
             }
         }
-        draw(context, stars, selectedStar);
+        if (selectedStar != currentSelectedStar) {
+            currentSelectedStar = selectedStar;
+            draw(context, stars, currentSelectedStar);
+        }
     }
     let sortFunction = (a, b) => {
         if (a.x > b.x) return 1;

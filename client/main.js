@@ -129,6 +129,59 @@ window.onload = function() {
 
         }
         context.fill();
+        context.beginPath();
+        context.lineWidth = 20;
+        for (let star of convexHull(stars.filter(star => star.owner === "Empire2"))) {
+            context.fillStyle = "rgba(139,69,19, 0.5)";
+            context.strokeStyle = "rgba(139,69,19, 0.3)";
+            context.lineTo(star.x, star.y)
+        }
+        context.fill();
+        context.beginPath();
+        context.lineWidth = 20;
+        for (let star of convexHull(stars.filter(star => star.owner === "Dominion"))) {
+            context.fillStyle = "rgba(0,255,0, 0.5)";
+            context.strokeStyle = "rgba(0,255,0, 0.3)";
+            context.lineTo(star.x, star.y)
+
+        }
+        context.fill();
+        context.beginPath();
+        context.lineWidth = 20;
+        for (let star of convexHull(stars.filter(star => star.owner === "Hollynuts"))) {
+            context.fillStyle = "rgba(131,131,131, 0.5)";
+            context.strokeStyle = "rgba(131,131,131, 0.3)";
+            context.lineTo(star.x, star.y)
+
+        }
+        context.fill();
+        context.beginPath();
+        context.lineWidth = 20;
+        for (let star of convexHull(stars.filter(star => star.owner === "Federation2"))) {
+            context.fillStyle = "rgba(152,85,184, 0.5)";
+            context.strokeStyle = "rgba(152,85,184, 0.3)";
+            context.lineTo(star.x, star.y)
+
+        }
+        context.fill();
+        context.beginPath();
+        context.lineWidth = 20;
+        for (let star of convexHull(stars.filter(star => star.owner === "Violet"))) {
+            context.fillStyle = "rgba(201,75,245, 0.5)";
+            context.strokeStyle = "rgba(201,75,245, 0.3)";
+            context.lineTo(star.x, star.y)
+
+        }
+        context.fill();
+        context.beginPath();
+        context.lineWidth = 20;
+        for (let star of convexHull(stars.filter(star => star.owner === "RedSector"))) {
+            context.fillStyle = "rgba(255,0,0, 0.5)";
+            context.strokeStyle = "rgba(255,0,0, 0.3)";
+            context.lineTo(star.x, star.y)
+
+        }
+        context.fill();
         context.lineWidth = 1;
         context.closePath();
         for (let star of stars) {

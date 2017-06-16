@@ -13,7 +13,6 @@ function showMenuAt(x, y) {
     menu.style.display = "block";
     menu.style.top = y + "px";
     menu.style.left = x + "px";
-    menu.style.z
 }
 
 function hideMenu() {

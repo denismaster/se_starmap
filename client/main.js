@@ -104,7 +104,7 @@ window.onload = function() {
         context.beginPath();
         context.lineWidth = 20;
 
-        for (let star of convexHull(stars.filter(star => star.owner === "Federation"))) {
+        for (let star of convexHull(stars.filter(star => star.sector === "Federation"))) {
             context.fillStyle = "rgba(135, 206, 250, 0.5)";
             context.strokeStyle = "rgba(135, 206, 250, 0.3)";
             context.lineTo(star.x, star.y)
@@ -113,7 +113,7 @@ window.onload = function() {
         context.fill();
         context.beginPath();
         context.lineWidth = 20;
-        for (let star of convexHull(stars.filter(star => star.owner === "Alliance"))) {
+        for (let star of convexHull(stars.filter(star => star.sector === "Alliance"))) {
             context.fillStyle = "rgba(255, 210, 0, 0.5)";
             context.strokeStyle = "rgba(255, 210, 250, 0.3)";
             context.lineTo(star.x, star.y)
@@ -122,7 +122,7 @@ window.onload = function() {
         context.fill();
         context.beginPath();
         context.lineWidth = 20;
-        for (let star of convexHull(stars.filter(star => star.owner === "Empire"))) {
+        for (let star of convexHull(stars.filter(star => star.sector === "Empire"))) {
             context.fillStyle = "rgba(139,69,19, 0.5)";
             context.strokeStyle = "rgba(139,69,19, 0.3)";
             context.lineTo(star.x, star.y)
@@ -131,7 +131,7 @@ window.onload = function() {
         context.fill();
         context.beginPath();
         context.lineWidth = 20;
-        for (let star of convexHull(stars.filter(star => star.owner === "Empire2"))) {
+        for (let star of convexHull(stars.filter(star => star.sector === "Empire2"))) {
             context.fillStyle = "rgba(139,69,19, 0.5)";
             context.strokeStyle = "rgba(139,69,19, 0.3)";
             context.lineTo(star.x, star.y)
@@ -139,16 +139,16 @@ window.onload = function() {
         context.fill();
         context.beginPath();
         context.lineWidth = 20;
-        for (let star of convexHull(stars.filter(star => star.owner === "Dominion"))) {
-            context.fillStyle = "rgba(0,255,0, 0.5)";
-            context.strokeStyle = "rgba(0,255,0, 0.3)";
+        for (let star of convexHull(stars.filter(star => star.sector === "Dominion"))) {
+            context.fillStyle = "rgba(0,255,0, 0.2)";
+            context.strokeStyle = "rgba(0,255,0, 0.2)";
             context.lineTo(star.x, star.y)
 
         }
         context.fill();
         context.beginPath();
         context.lineWidth = 20;
-        for (let star of convexHull(stars.filter(star => star.owner === "Hollynuts"))) {
+        for (let star of convexHull(stars.filter(star => star.sector === "Hollynuts"))) {
             context.fillStyle = "rgba(131,131,131, 0.5)";
             context.strokeStyle = "rgba(131,131,131, 0.3)";
             context.lineTo(star.x, star.y)
@@ -157,7 +157,7 @@ window.onload = function() {
         context.fill();
         context.beginPath();
         context.lineWidth = 20;
-        for (let star of convexHull(stars.filter(star => star.owner === "Federation2"))) {
+        for (let star of convexHull(stars.filter(star => star.sector === "Federation2"))) {
             context.fillStyle = "rgba(152,85,184, 0.5)";
             context.strokeStyle = "rgba(152,85,184, 0.3)";
             context.lineTo(star.x, star.y)
@@ -166,8 +166,8 @@ window.onload = function() {
         context.fill();
         context.beginPath();
         context.lineWidth = 20;
-        for (let star of convexHull(stars.filter(star => star.owner === "Violet"))) {
-            context.fillStyle = "rgba(201,75,245, 0.5)";
+        for (let star of convexHull(stars.filter(star => star.sector === "Violet"))) {
+            context.fillStyle = "rgba(201,75,245, 0.3)";
             context.strokeStyle = "rgba(201,75,245, 0.3)";
             context.lineTo(star.x, star.y)
 
@@ -175,8 +175,8 @@ window.onload = function() {
         context.fill();
         context.beginPath();
         context.lineWidth = 20;
-        for (let star of convexHull(stars.filter(star => star.owner === "RedSector"))) {
-            context.fillStyle = "rgba(255,0,0, 0.5)";
+        for (let star of convexHull(stars.filter(star => star.sector === "RedSector"))) {
+            context.fillStyle = "rgba(255,0,0, 0.3)";
             context.strokeStyle = "rgba(255,0,0, 0.3)";
             context.lineTo(star.x, star.y)
 

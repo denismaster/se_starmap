@@ -4,21 +4,23 @@
 <head>
     <title>Карта галактики</title>
     <meta charset="utf8">
+    <base href="/" />
+    <link rel="stylesheet" href="wwwroot/dist/vendor.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 
 <body>
+    <app>
+    </app>
     <canvas id="map" width="3000" height="2000">
         Карта не поддерживается.
     </canvas>
+    <script src="wwwroot/dist/vendor.js"></script>
+    <script src="wwwroot/dist/main-client.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="main.js"></script>
-    <ul class="dropdown-menu" id="context-menu" aria-labelledby="dropdownMenu1">
-        <li><a href="#">Передвинуть флот</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="#">Передать под управление...</a></li>
-    </ul>
+    <!--<script src="main.js"></script>-->
+
 </body>
 
 </html>

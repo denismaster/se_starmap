@@ -1,46 +1,46 @@
 {
-  "name": "server",
-  "version": "0.0.0",
-  "description": "server",
-  "license": "MIT",
-  "repository": "",
-  "author": "",
-  "keywords": [
-    ""
-  ],
-  "files": [
-    "lib"
-  ],
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
-  "scripts": {
-    "clean": "rimraf lib",
-    "lint": "tslint --force --format verbose \"src/**/*.ts\"",
-    "build": "npm run clean && npm run lint && echo Using TypeScript && tsc --version && tsc --pretty",
-    "test": "npm run build && mocha --compilers ts:ts-node/register --recursive test/**/*-spec.ts",
-    "watch": "npm run build -- --watch",
-    "watch:test": "npm run test -- --watch"
-  },
-  "dependencies": {
-    "body-parser": "^1.17.2",
-    "express": "^4.15.3",
-    "morgan": "^1.8.2"
-  },
-  "devDependencies": {
-    "@types/body-parser": "^1.16.3",
-    "@types/chai": "^3.0.0",
-    "@types/express": "^4.0.35",
-    "@types/mocha": "^2.0.0",
-    "@types/morgan": "^1.7.32",
-    "@types/node": "6.0.31",
-    "chai": "^3.0.0",
-    "mocha": "^3.0.0",
-    "rimraf": "^2.0.0",
-    "ts-node": "^1.0.0",
-    "tslint": "^4.0.0",
-    "typescript": "^2.0.0"
-  },
-  "engines": {
-    "node": ">=4.0.0"
-  }
+    "name": "ms-starmap-server",
+    "version": "0.0.1",
+    "description": "server",
+    "license": "MIT",
+    "repository": "",
+    "author": "",
+    "keywords": [
+        ""
+    ],
+    "files": [
+        "lib"
+    ],
+    "main": "lib/index.js",
+    "typings": "lib/index.d.ts",
+    "scripts": {
+        "clean": "rimraf lib",
+        "lint": "tslint --force --format verbose \"src/**/*.ts\"",
+        "build": "npm run clean && npm run lint && echo Using TypeScript && tsc --version && tsc --pretty",
+        "test": "npm run build && mocha --compilers ts:ts-node/register --recursive test/**/*-spec.ts",
+        "watch": "npm run build -- --watch",
+        "watch:test": "npm run test -- --watch"
+    },
+    "dependencies": {
+        "body-parser": "^1.17.2",
+        "express": "^4.15.3",
+        "morgan": "^1.8.2"
+    },
+    "devDependencies": {
+        "@types/body-parser": "^1.16.3",
+        "@types/chai": "^3.0.0",
+        "@types/express": "^4.0.35",
+        "@types/mocha": "^2.0.0",
+        "@types/morgan": "^1.7.32",
+        "@types/node": "6.0.31",
+        "chai": "^3.0.0",
+        "mocha": "^3.0.0",
+        "rimraf": "^2.0.0",
+        "ts-node": "^1.0.0",
+        "tslint": "^4.0.0",
+        "typescript": "^2.0.0"
+    },
+    "engines": {
+        "node": ">=4.0.0"
+    }
 }

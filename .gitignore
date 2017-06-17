@@ -2,6 +2,10 @@ coverage/
 
 server/node_modules/
 server/lib/
-
 server/npm-debug.log
+
+client/node_modules/
+client/src/dist/
+client/npm-debug.log
+client/wwwroot/dist
 

@@ -3,6 +3,8 @@ import * as _bodyParser from "body-parser";
 import * as _morgan from "morgan";
 import { Request, Response } from "express"
 import { stars } from './stars-repository';
+
+let alphaShape = require("alpha-shape");
 export class Server {
     public readonly app: _express.Application;
     public readonly port: number;
@@ -23,6 +25,23 @@ export class Server {
 
         this.app.use("/api/stars", (request: Request, response: Response) => {
             response.end(JSON.stringify(stars));
+        });
+
+        this.app.use("/api/sectors", (request: Request, response: Response) => {
+            let hull = alphaShape(0.0085, stars.map(star => [star.x, star.y]))
+            let sectors = [];
+            for (let i = 0; i < hull.length; ++i) {
+                const cell = hull[i];
+                let sector = [];
+                for (let j = 0; j < cell.length; ++j) {
+                    let p = stars[cell[j]]
+                    let q = stars[cell [(j+1)%cell.length]]
+                    sector.push(p);
+                    sector.push(q);
+                }
+                sectors.push(sector);
+            }
+            response.end(JSON.stringify(sectors));
         });
 
         this.app.use("/", (request: Request, response: Response) => {

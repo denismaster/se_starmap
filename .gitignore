@@ -5,7 +5,7 @@ server/lib/
 server/npm-debug.log
 
 client/node_modules/
-client/src/dist/
+client/src/dist/*
 !client/src/dist/vendor-manifest.json
 client/npm-debug.log
 client/wwwroot/dist

@@ -32,9 +32,10 @@ export class HomeComponent implements AfterViewInit {
 
     private context: CanvasRenderingContext2D;
     ngAfterViewInit() {
-        if(!this.context)
-            this.context = this.canvas.nativeElement.getContext("2d");
-        this.captureEvents(this.canvas.nativeElement);
+        if (!this.context) {
+        this.context = this.canvas.nativeElement.getContext("2d");
+            this.captureEvents(this.canvas.nativeElement);
+        }
     }
     private stars: Star[] = [];
 
@@ -92,7 +93,7 @@ export class HomeComponent implements AfterViewInit {
         context.fillStyle = "#ccc";
         context.font = "bold 12px arial";
         context.strokeStyle = "#ccc";
-        /*if (this.sectors && this.sectors.length > 0) {
+        if (this.sectors && this.sectors.length > 0) {
             for (let sector of this.sectors) {
                 context.beginPath();
                 context.fillStyle = "rgba(168,168,168, 0.3)";
@@ -101,10 +102,10 @@ export class HomeComponent implements AfterViewInit {
                 for (let star of sector) {
                     context.lineTo(star.x, star.y)
                 }
-                context.stroke();
+                context.fill();
                 context.closePath();
             }
-        }*/
+        }
         context.lineWidth = 1;
         for (let star of stars) {
             context.beginPath();

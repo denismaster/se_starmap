@@ -23,11 +23,13 @@
   },
   "dependencies": {
     "@types/concaveman": "^1.1.2",
+    "@types/lodash": "^4.14.66",
     "alpha-shape": "^1.0.0",
     "body-parser": "^1.17.2",
     "concaveman": "^1.1.1",
     "express": "^4.15.3",
-    "morgan": "^1.8.2"
+    "morgan": "^1.8.2",
+    "polygon-offset": "^0.3.1"
   },
   "devDependencies": {
     "@types/body-parser": "^1.16.3",

@@ -2,9 +2,12 @@ import * as _bodyParser from "body-parser";
 import * as _express from "express";
 import { Request, Response } from "express";
 import * as _morgan from "morgan";
-import { stars } from "./stars-repository";
+import { stars, Star } from './stars-repository';
 
 import * as concaveHull from "concaveman";
+import { groupBy } from './group-by';
+let Offset = require("polygon-offset");
+
 export class Server {
     public readonly app: _express.Application;
     public readonly port: number;
@@ -15,11 +18,15 @@ export class Server {
         this.port = port || process.env.PORT || 1234;
         this.app = _express();
         this.router = _express.Router();
+
+        
     }
 
     public useDefaultConfig(): Server {
         this.app.use(_bodyParser.json());
         this.app.use(_morgan("dev"));
+
+        
 
         this.app.use(_express.static(this.pathToFiles));
 
@@ -28,11 +35,22 @@ export class Server {
         });
 
         this.app.use("/api/sectors", (request: Request, response: Response) => {
-            const hull = concaveHull(stars.map((star) => [star.x, star.y]));
-            const sectors = hull.map((res) => {
-                return { x: res[0], y: res[1]};
-            });
+
+            const groups = groupBy(stars,t=>t.owner);
+            const sectors:Array<Array<{x:number,y:number}>> = [];
+            let offset = new Offset();
+            for(let group of groups)
+            {
+                if(!group.key) continue;
+                
+                const hull = concaveHull(group.values.map((star: Star) => [star.x, star.y]));
+                const sector = hull.map((res:number[]) => {
+                    return { x: res[0], y: res[1]};
+                });
+                sectors.push(sector);
+            }
             response.end(JSON.stringify(sectors));
+            
         });
 
         this.app.use("/", (request: Request, response: Response) => {

@@ -1,8 +1,8 @@
-import * as _express from "express";
 import * as _bodyParser from "body-parser";
+import * as _express from "express";
+import { Request, Response } from "express";
 import * as _morgan from "morgan";
-import { Request, Response } from "express"
-import { stars } from './stars-repository';
+import { stars } from "./stars-repository";
 
 import * as concaveHull from "concaveman";
 export class Server {
@@ -21,16 +21,16 @@ export class Server {
         this.app.use(_bodyParser.json());
         this.app.use(_morgan("dev"));
 
-        this.app.use(_express.static(this.pathToFiles))
+        this.app.use(_express.static(this.pathToFiles));
 
         this.app.use("/api/stars", (request: Request, response: Response) => {
             response.end(JSON.stringify(stars));
         });
 
         this.app.use("/api/sectors", (request: Request, response: Response) => {
-            let hull = concaveHull(stars.map(star => [star.x, star.y]));
-            let sectors = hull.map(res=>{
-                return { x: res[0], y:res[1]};
+            const hull = concaveHull(stars.map((star) => [star.x, star.y]));
+            const sectors = hull.map((res) => {
+                return { x: res[0], y: res[1]};
             });
             response.end(JSON.stringify(sectors));
         });

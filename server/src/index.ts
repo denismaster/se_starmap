@@ -1,4 +1,4 @@
-import { Server } from './server';
+import { Server } from "./server";
 class Startup {
     public static Main(): void {
         console.log("Mass Space Star map server");

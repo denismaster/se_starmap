@@ -26,9 +26,11 @@ build_script:
   # go to server and run npm scripts
   - cd ../server
   - npm run build
-
+  
+after_build:
+  - 7z a starmap.zip %APPVEYOR_BUILD_FOLDER%\**\*.*
 artifacts:
-  - path: .
+  - path: starmap.zip
     name: Builded Starmap
   
   

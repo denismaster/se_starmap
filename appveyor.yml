@@ -1,0 +1,33 @@
+# Test against the latest version of this Node.js version
+environment:
+  nodejs_version: "7"
+
+# Install scripts. (runs after repo cloning)
+install:
+  # Get the latest stable version of Node.js or io.js
+  - ps: Install-Product node $env:nodejs_version
+  # go to server and install modules
+  - cd ./server
+  - npm install
+  # go to client and install modules
+  - cd ../client
+  - npm install
+
+# Actually build.
+build: 
+  # Output useful info for debugging.
+  - node --version
+  - npm --version
+  # go to client and run webpack
+  - cd ./client
+  - webpack --config webpack.config.vendor.js
+  - webpack --config webpack.config.js
+  # go to server and run npm scripts
+  - cd ../server
+  - npm run build
+
+artifacts:
+  - path: .
+    name: Builded Starmap
+  
+  

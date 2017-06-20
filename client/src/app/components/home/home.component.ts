@@ -1,14 +1,18 @@
-import { Component, ViewChild, AfterViewInit,ElementRef } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import { Http } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/operator/takeUntil';
+import 'rxjs/add/operator/pairwise';
+import 'rxjs/add/operator/switchMap';
 
-export interface Star
-{
-    x:number;
-    y:number;
-    name?:string;
-    owner:string;
-    size:number;
-    isDestroyed?:boolean;
+export interface Star {
+    x: number;
+    y: number;
+    name?: string;
+    owner: string;
+    size: number;
+    isDestroyed?: boolean;
 }
 
 @Component({
@@ -18,29 +22,25 @@ export interface Star
 export class HomeComponent implements AfterViewInit {
 
     @ViewChild("canvas") canvas: ElementRef;
-    private imageLoaded:boolean;
-    constructor(http:Http)
-    {
+    private imageLoaded: boolean;
+    constructor(http: Http) {
         this.background = new Image();
         this.background.src = "background.jpg";
-        this.background.onload = (event)=>
-        {
-            this.imageLoaded=true;
-        }
-        http.get("/api/stars").subscribe(result => this.stars=result.json());
-        http.get("/api/sectors").subscribe(result => this.sectors=result.json());
+        http.get("/api/stars").subscribe(result => this.stars = result.json());
+        http.get("/api/sectors").subscribe(result => this.sectors = result.json());
     }
 
     private context: CanvasRenderingContext2D;
-    ngAfterViewInit(){
-        this.context = this.canvas.nativeElement.getContext("2d");
-        this.render(this.context,this.stars);
+    ngAfterViewInit() {
+        if(!this.context)
+            this.context = this.canvas.nativeElement.getContext("2d");
+        this.captureEvents(this.canvas.nativeElement);
     }
     private stars: Star[] = [];
 
-    private sectors:any;
-    private currentSelectedStar:Star;
-    private background:HTMLImageElement;
+    private sectors: any;
+    private currentSelectedStar: Star;
+    private background: HTMLImageElement;
     private getMousePos(canvas: HTMLCanvasElement, evt: MouseEvent): { x: number, y: number } {
         const rect = canvas.getBoundingClientRect();
         return {
@@ -48,8 +48,7 @@ export class HomeComponent implements AfterViewInit {
             y: evt.clientY - rect.top
         };
     }
-    private mouseMove(event: MouseEvent)
-    {
+    private mouseMove(event: MouseEvent) {
         var selectedStar = undefined;
         let e = this.getMousePos(this.canvas.nativeElement, event);
         for (let star of this.stars) {
@@ -60,7 +59,6 @@ export class HomeComponent implements AfterViewInit {
         }
         if (selectedStar != this.currentSelectedStar) {
             this.currentSelectedStar = selectedStar;
-            this.render(this.context,this.stars, this.currentSelectedStar);
         }
     }
     private convexHull(points) {
@@ -82,32 +80,31 @@ export class HomeComponent implements AfterViewInit {
         return hull;
     }
 
-    private removeMiddle(a, b, c):boolean {
+    private removeMiddle(a, b, c): boolean {
         var cross = (a.x - b.x) * (c.y - b.y) - (a.y - b.y) * (c.x - b.x);
         var dot = (a.x - b.x) * (c.x - b.x) + (a.y - b.y) * (c.y - b.y);
         return cross < 0 || cross == 0 && dot <= 0;
     }
 
-    private render(context:CanvasRenderingContext2D, stars, selectedStar?){
-        if(!this.imageLoaded) return;
-        context.drawImage(this.background, 0, 0);
+    private render(context: CanvasRenderingContext2D, stars, selectedStar?) {
+        if (this.imageLoaded)
+           context.drawImage(this.background, 0, 0);
         context.fillStyle = "#ccc";
         context.font = "bold 12px arial";
         context.strokeStyle = "#ccc";
-        if (this.sectors && this.sectors.length > 0) {
+        /*if (this.sectors && this.sectors.length > 0) {
             for (let sector of this.sectors) {
                 context.beginPath();
                 context.fillStyle = "rgba(168,168,168, 0.3)";
                 context.strokeStyle = "rgba(168,168,168, 0.3)";
-                context.lineWidth=5;
-                console.log(sector);
+                context.lineWidth = 5;
                 for (let star of sector) {
                     context.lineTo(star.x, star.y)
                 }
                 context.stroke();
                 context.closePath();
             }
-        }
+        }*/
         context.lineWidth = 1;
         for (let star of stars) {
             context.beginPath();
@@ -128,5 +125,47 @@ export class HomeComponent implements AfterViewInit {
             context.arc(selectedStar.x, selectedStar.y, selectedStar.size + 4, 0, 2 * Math.PI)
             context.stroke();
         }
+    }
+
+    private captureEvents(canvasEl: HTMLCanvasElement) {
+        Observable
+            .fromEvent(this.background,'load')
+            .subscribe((res:Event)=>{
+                this.imageLoaded = true;
+                this.render(this.context, this.stars)
+            })
+        Observable
+            // this will capture all mousemove events from teh canvas element
+            .fromEvent(canvasEl, 'mousemove')
+            .subscribe((res: MouseEvent) => {
+                this.mouseMove(res);
+                this.render(this.context, this.stars, this.currentSelectedStar)
+            });
+        Observable
+            .fromEvent(canvasEl, 'mousedown')
+            .switchMap((e) => {
+                return Observable
+                    .fromEvent(canvasEl, 'mousemove')
+                    .takeUntil(Observable.fromEvent(canvasEl, 'mouseup'))
+                    .pairwise()
+            })
+            .subscribe((res: [MouseEvent, MouseEvent]) => {
+                const rect = canvasEl.getBoundingClientRect();
+
+                const prevPos = {
+                    x: res[0].clientX - rect.left,
+                    y: res[0].clientY - rect.top
+                };
+
+                const currentPos = {
+                    x: res[1].clientX - rect.left,
+                    y: res[1].clientY - rect.top
+                };
+
+                const difference = {
+                    x: currentPos.x - prevPos.x,
+                    y: currentPos.y - prevPos.y
+                }                
+            });
     }
 }

@@ -4,7 +4,7 @@ import * as _morgan from "morgan";
 import { Request, Response } from "express"
 import { stars } from './stars-repository';
 
-let alphaShape = require("alpha-shape");
+import * as concaveHull from "concaveman";
 export class Server {
     public readonly app: _express.Application;
     public readonly port: number;
@@ -28,19 +28,10 @@ export class Server {
         });
 
         this.app.use("/api/sectors", (request: Request, response: Response) => {
-            let hull = alphaShape(0.0085, stars.map(star => [star.x, star.y]))
-            let sectors = [];
-            for (let i = 0; i < hull.length; ++i) {
-                const cell = hull[i];
-                let sector = [];
-                for (let j = 0; j < cell.length; ++j) {
-                    let p = stars[cell[j]]
-                    let q = stars[cell [(j+1)%cell.length]]
-                    sector.push(p);
-                    sector.push(q);
-                }
-                sectors.push(sector);
-            }
+            let hull = concaveHull(stars.map(star => [star.x, star.y]));
+            let sectors = hull.map(res=>{
+                return { x: res[0], y:res[1]};
+            });
             response.end(JSON.stringify(sectors));
         });
 

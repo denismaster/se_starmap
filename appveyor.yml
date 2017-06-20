@@ -26,6 +26,7 @@ build_script:
   # go to server and run npm scripts
   - cd ../server
   - npm run build
+  - cd ..
   
 after_build:
   - 7z a starmap.zip %APPVEYOR_BUILD_FOLDER%\**\*.*

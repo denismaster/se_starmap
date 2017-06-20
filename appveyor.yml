@@ -19,7 +19,7 @@ build_script:
   - node --version
   - npm --version
   # go to client and run webpack
-  - cd ./client
+  - cd ../client
   - webpack --config webpack.config.vendor.js
   - webpack --config webpack.config.js
   # go to server and run npm scripts

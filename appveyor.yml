@@ -1,0 +1,37 @@
+# Test against the latest version of this Node.js version
+environment:
+  nodejs_version: "7"
+
+# Install scripts. (runs after repo cloning)
+install:
+  # Get the latest stable version of Node.js and webpack
+  - ps: Install-Product node $env:nodejs_version
+  - npm install -g webpack@1.13.2
+  # go to server and install modules
+  - cd ./server
+  - npm install
+  # go to client and install modules
+  - cd ../client
+  - npm install
+
+# Actually build.
+build_script: 
+  # Output useful info for debugging.
+  - node --version
+  - npm --version
+  # go to client and run webpack
+  - cd ../client
+  - webpack --config webpack.config.vendor.js
+  - webpack --config webpack.config.js
+  # go to server and run npm scripts
+  - cd ../server
+  - npm run build
+  - cd ..
+  
+after_build:
+  - 7z a starmap.zip %APPVEYOR_BUILD_FOLDER%\**\*.*
+artifacts:
+  - path: starmap.zip
+    name: Builded Starmap
+  
+  

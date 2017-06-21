@@ -3,7 +3,7 @@ import * as _express from "express";
 import { Request, Response } from "express";
 import * as _morgan from "morgan";
 import { stars, Star } from './stars-repository';
-
+import * as jwt  from "express-jwt";
 import * as concaveHull from "concaveman";
 import { groupBy } from './group-by';
 let Offset = require("polygon-offset");
@@ -26,15 +26,19 @@ export class Server {
         this.app.use(_bodyParser.json());
         this.app.use(_morgan("dev"));
 
-        
+
+
+       // this.router.use(jwt({ secret: 'superdupersecret that need to be saved anywhere else', strict:false}).unless({path: ["/token","/stars"]}));
 
         this.app.use(_express.static(this.pathToFiles));
 
-        this.app.use("/api/stars", (request: Request, response: Response) => {
+        
+
+        this.router.get("/stars", (request: Request, response: Response) => {
             response.end(JSON.stringify(stars));
         });
 
-        this.app.use("/api/sectors", (request: Request, response: Response) => {
+        this.router.get("/sectors", (request: Request, response: Response) => {
 
             const groups = groupBy(stars,t=>t.owner);
             const sectors:Array<Array<{x:number,y:number}>> = [];
@@ -52,16 +56,24 @@ export class Server {
             response.end(JSON.stringify(sectors));
             
         });
+       
+
+        this.app.use("/api", this.router);
+
+        
+
+        this.app.use((err:Error, req:Request, res:Response,next:_express.NextFunction)=> {
+            if (err.name === 'UnauthorizedError') {
+                res.status(401).send('invalid token...');
+                return;
+            }
+            res.status(500).send('Internal server error');
+        });
 
         this.app.use("/", (request: Request, response: Response) => {
             response.sendFile("index.html", { root: this.pathToFiles });
         });
 
-        this.app.use((error: any, request: Request, response: Response, next: any) => {
-            response.status(500);
-            console.error(error);
-            response.end();
-        });
         return this;
     }
 

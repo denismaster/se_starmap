@@ -33,11 +33,14 @@ export class HomeComponent implements AfterViewInit {
     private context: CanvasRenderingContext2D;
     ngAfterViewInit() {
         if (!this.context) {
-        this.context = this.canvas.nativeElement.getContext("2d");
+            this.context = this.canvas.nativeElement.getContext("2d");
             this.captureEvents(this.canvas.nativeElement);
         }
     }
     private stars: Star[] = [];
+
+    private translateX:number=0;
+    private  translateY:number=0;
 
     private sectors: any;
     private currentSelectedStar: Star;
@@ -88,18 +91,26 @@ export class HomeComponent implements AfterViewInit {
     }
 
     private render(context: CanvasRenderingContext2D, stars, selectedStar?) {
+        context.setTransform(1, 0, 0, 1, 0, 0);
+        context.translate(this.translateX,this.translateY);
         if (this.imageLoaded)
-           context.drawImage(this.background, 0, 0);
+            context.drawImage(this.background, 0, 0);
         context.fillStyle = "#ccc";
         context.font = "bold 12px arial";
         context.strokeStyle = "#ccc";
         if (this.sectors && this.sectors.length > 0) {
             for (let sector of this.sectors) {
                 context.beginPath();
-                context.fillStyle = "rgba(168,168,168, 0.3)";
-                context.strokeStyle = "rgba(168,168,168, 0.3)";
+                if (sector.key === "Jericho") {
+                    context.fillStyle = "rgba(255,0,0, 0.2)";
+                    context.strokeStyle = "rgba(255,0,0, 0.2)";
+                }
+                else {
+                    context.fillStyle = "rgba(168,168,168, 0.3)";
+                    context.strokeStyle = "rgba(168,168,168, 0.3)";
+                }
                 context.lineWidth = 5;
-                for (let star of sector) {
+                for (let star of sector.values) {
                     context.lineTo(star.x, star.y)
                 }
                 context.fill();
@@ -130,8 +141,8 @@ export class HomeComponent implements AfterViewInit {
 
     private captureEvents(canvasEl: HTMLCanvasElement) {
         Observable
-            .fromEvent(this.background,'load')
-            .subscribe((res:Event)=>{
+            .fromEvent(this.background, 'load')
+            .subscribe((res: Event) => {
                 this.imageLoaded = true;
                 this.render(this.context, this.stars)
             })
@@ -166,7 +177,9 @@ export class HomeComponent implements AfterViewInit {
                 const difference = {
                     x: currentPos.x - prevPos.x,
                     y: currentPos.y - prevPos.y
-                }                
+                }
+                this.translateX+=difference.x;
+                this.translateY+=difference.y;
             });
     }
 }

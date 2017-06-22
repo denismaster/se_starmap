@@ -842,14 +842,14 @@ export const stars: Star[] = [{
     x: 1277,
     y: 829,
     name: "Ондерон",
-    size: 13,
+    size: 10,
 },
 {
     x: 1328,
     y: 759,
     name: "Обан",
     isDestroyed: true,
-    size: 20,
+    size: 15,
 },
 {
     x: 2409,

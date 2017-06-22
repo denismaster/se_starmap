@@ -47,7 +47,7 @@ export class Server {
                         values: groupBy(group.values, t => t.owner)
                     };
                 })
-            const sectors: Array<Array<{ x: number, y: number }>> = [];
+            const sectors: { key:any, values:{ x:number,y:number}[] }[]=[];
             let offset = new Offset();
             for (let group of groups) {
                 if (!group.key) continue;
@@ -57,7 +57,9 @@ export class Server {
                     const sector = hull.map((res: number[]) => {
                         return { x: res[0], y: res[1] };
                     });
-                    sectors.push(sector);
+                    sectors.push({
+                        key:subgroup.key, values:sector
+                    });
                 }
             }
             response.end(JSON.stringify(sectors));

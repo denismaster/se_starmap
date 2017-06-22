@@ -48,8 +48,8 @@ export class HomeComponent implements AfterViewInit {
     private getMousePos(canvas: HTMLCanvasElement, evt: MouseEvent): { x: number, y: number } {
         const rect = canvas.getBoundingClientRect();
         return {
-            x: evt.clientX - rect.left,
-            y: evt.clientY - rect.top
+            x: evt.clientX - rect.left+this.translateX,
+            y: evt.clientY - rect.top+this.translateY
         };
     }
     private mouseMove(event: MouseEvent) {
@@ -90,6 +90,16 @@ export class HomeComponent implements AfterViewInit {
         return cross < 0 || cross == 0 && dot <= 0;
     }
 
+    private getOwnerColor(owner:string):string{
+        switch(owner)
+        {
+            case "Jericho": return "rgba(255,0,0, 0.2)";
+            case "Dominion": return "rgba(0,212,0,0.2)";
+            case "Hollynuts": return "rgba(98,98,98,0.2)";
+            case "Federation": return "rgba(0,0,200,0.2)";
+            default: return "rgba(168,168,168, 0.3)";
+        }
+    }
     private render(context: CanvasRenderingContext2D, stars, selectedStar?) {
         context.setTransform(1, 0, 0, 1, 0, 0);
         context.translate(this.translateX,this.translateY);
@@ -101,14 +111,10 @@ export class HomeComponent implements AfterViewInit {
         if (this.sectors && this.sectors.length > 0) {
             for (let sector of this.sectors) {
                 context.beginPath();
-                if (sector.key === "Jericho") {
-                    context.fillStyle = "rgba(255,0,0, 0.2)";
-                    context.strokeStyle = "rgba(255,0,0, 0.2)";
-                }
-                else {
-                    context.fillStyle = "rgba(168,168,168, 0.3)";
-                    context.strokeStyle = "rgba(168,168,168, 0.3)";
-                }
+                const color = this.getOwnerColor(sector.key);
+                context.fillStyle = color;
+                context.strokeStyle = color;
+                
                 context.lineWidth = 5;
                 for (let star of sector.values) {
                     context.lineTo(star.x, star.y)

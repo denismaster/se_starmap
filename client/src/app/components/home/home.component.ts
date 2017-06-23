@@ -93,10 +93,12 @@ export class HomeComponent implements AfterViewInit {
     private getOwnerColor(owner:string):string{
         switch(owner)
         {
-            case "Jericho": return "rgba(255,0,0, 0.2)";
-            case "Dominion": return "rgba(0,212,0,0.2)";
-            case "Hollynuts": return "rgba(98,98,98,0.2)";
-            case "Federation": return "rgba(0,0,200,0.2)";
+            case "Alliance": return "rgba(44,40,2,0.7)";
+            case "Empire": return "rgba(47,30,14,0.7)";
+            case "Jericho": return "rgba(52,4,0, 0.7)";
+            case "Dominion": return "rgba(1,38,4,0.7)";
+            case "Hollynuts": return "rgba(98,98,98,0.7)";
+            case "Federation": return "rgba(1,17,42,0.7)";
             default: return "rgba(168,168,168, 0.3)";
         }
     }
@@ -106,7 +108,7 @@ export class HomeComponent implements AfterViewInit {
         if (this.imageLoaded)
             context.drawImage(this.background, 0, 0);
         context.fillStyle = "#ccc";
-        context.font = "bold 12px arial";
+        context.font = "bold 12px 'Lato-Regular'";
         context.strokeStyle = "#ccc";
         if (this.sectors && this.sectors.length > 0) {
             for (let sector of this.sectors) {

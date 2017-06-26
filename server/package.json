@@ -25,11 +25,13 @@
     "@types/concaveman": "^1.1.2",
     "@types/express-jwt": "0.0.35",
     "@types/lodash": "^4.14.66",
+    "@types/mongodb": "^2.2.6",
     "alpha-shape": "^1.0.0",
     "body-parser": "^1.17.2",
     "concaveman": "^1.1.1",
     "express": "^4.15.3",
     "express-jwt": "^5.3.0",
+    "mongodb": "^2.2.29",
     "morgan": "^1.8.2",
     "polygon-offset": "^0.3.1"
   },

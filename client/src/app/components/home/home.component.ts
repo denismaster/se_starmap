@@ -108,7 +108,7 @@ export class HomeComponent implements AfterViewInit {
         if (this.imageLoaded)
             context.drawImage(this.background, 0, 0);
         context.fillStyle = "#ccc";
-        context.font = "bold 12px 'Lato-Regular'";
+        context.font = "bold 12px arial";
         context.strokeStyle = "#ccc";
         if (this.sectors && this.sectors.length > 0) {
             for (let sector of this.sectors) {

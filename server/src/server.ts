@@ -6,6 +6,7 @@ import { stars, Star } from './stars-repository';
 import * as jwt from "express-jwt";
 import * as concaveHull from "concaveman";
 import { groupBy } from './group-by';
+import { MongoClient } from "mongodb";
 let Offset = require("polygon-offset");
 
 export class Server {
@@ -13,12 +14,16 @@ export class Server {
     public readonly port: number;
     public readonly router: _express.Router;
 
+    public readonly mongoClient : MongoClient;
+
+    private dbUrl = "mongodb://localhost:27017/ms_starmap";
     private pathToFiles = __dirname + "/../../client/";
     constructor(port?: number) {
         this.port = port || process.env.PORT || 1234;
         this.app = _express();
         this.router = _express.Router();
 
+        this.mongoClient = new MongoClient();
 
     }
 
@@ -35,7 +40,12 @@ export class Server {
 
 
         this.router.get("/stars", (request: Request, response: Response) => {
-            response.end(JSON.stringify(stars));
+            this.mongoClient.connect(this.dbUrl, function (err, db) {
+                db.collection("stars").find({}).toArray(function (err, stars) {
+                    response.send(stars)
+                    db.close();
+                });
+            });
         });
 
         this.router.get("/sectors", (request: Request, response: Response) => {
@@ -47,18 +57,17 @@ export class Server {
                         values: groupBy(group.values, t => t.owner)
                     };
                 })
-            const sectors: { key:any, values:{ x:number,y:number}[] }[]=[];
+            const sectors: { key: any, values: { x: number, y: number }[] }[] = [];
             let offset = new Offset();
             for (let group of groups) {
                 if (!group.key) continue;
-                for(let subgroup of group.values)
-                {
+                for (let subgroup of group.values) {
                     const hull = concaveHull(subgroup.values.map((star: Star) => [star.x, star.y]));
                     const sector = hull.map((res: number[]) => {
                         return { x: res[0], y: res[1] };
                     });
                     sectors.push({
-                        key:subgroup.key, values:sector
+                        key: subgroup.key, values: sector
                     });
                 }
             }
